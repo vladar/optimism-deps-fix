@@ -1,0 +1,25 @@
+{
+  "name": "optimism-deps-fix",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "bench.mjs",
+  "dependencies": {
+    "@apollo/client": "3.6.5",
+    "execa": "^7.1.0",
+    "graphql": "^16.6.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "patch-package": "^6.5.1",
+    "prettier": "^2.8.4"
+  },
+  "scripts": {
+    "bench": "node --expose-gc bench.mjs",
+    "postinstall": "patch-package"
+  },
+  "resolutions": {
+    "optimism": "0.16.1"
+  }
+}
