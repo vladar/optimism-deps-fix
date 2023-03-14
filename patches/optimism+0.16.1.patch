@@ -1,5 +1,5 @@
 diff --git a/node_modules/optimism/lib/bundle.cjs.js b/node_modules/optimism/lib/bundle.cjs.js
-index d5ab82f..078a992 100644
+index d5ab82f..d647afe 100644
 --- a/node_modules/optimism/lib/bundle.cjs.js
 +++ b/node_modules/optimism/lib/bundle.cjs.js
 @@ -227,7 +227,13 @@ var Entry = /** @class */ (function () {
@@ -31,16 +31,8 @@ index d5ab82f..078a992 100644
              }
              parent.dependOn(dep_1);
              if (typeof subscribe === "function") {
-@@ -523,6 +536,7 @@ function wrap(originalFunction, options) {
-     optimistic.getKey = keyArgs ? function getKey() {
-         return makeCacheKey.apply(null, keyArgs.apply(null, arguments));
-     } : makeCacheKey;
-+    optimistic.__DEBUG_ONLY_optimismCache = cache;
-     return Object.freeze(optimistic);
- }
- 
 diff --git a/node_modules/optimism/lib/bundle.esm.js b/node_modules/optimism/lib/bundle.esm.js
-index 9e5a669..aa45bf4 100644
+index 9e5a669..125e6a2 100644
 --- a/node_modules/optimism/lib/bundle.esm.js
 +++ b/node_modules/optimism/lib/bundle.esm.js
 @@ -225,7 +225,13 @@ var Entry = /** @class */ (function () {
@@ -58,11 +50,9 @@ index 9e5a669..aa45bf4 100644
              this.deps.clear();
              emptySetPool.push(this.deps);
              this.deps = null;
-@@ -411,7 +417,16 @@ function dep(options) {
-             var dep_1 = depsByKey.get(key);
+@@ -412,6 +418,14 @@ function dep(options) {
              if (!dep_1) {
                  depsByKey.set(key, dep_1 = new Set);
-+                allDeps.set(dep_1, true);
              }
 +            if (self.enableOptimismFix) {
 +                dep_1.cleanup = () => {
@@ -75,29 +65,11 @@ index 9e5a669..aa45bf4 100644
              parent.dependOn(dep_1);
              if (typeof subscribe === "function") {
                  maybeUnsubscribe(dep_1);
-@@ -432,6 +447,9 @@ function dep(options) {
+@@ -432,6 +446,7 @@ function dep(options) {
              maybeUnsubscribe(dep);
          }
      };
 +
-+    allDepsByKey.set(depsByKey, true);
-+
      return depend;
- }
- 
-@@ -464,6 +482,7 @@ function wrap(originalFunction, options) {
-         var entry = cache.get(key);
-         if (!entry) {
-             cache.set(key, entry = new Entry(originalFunction));
-+            allEntries.set(entry, true);
-             entry.subscribe = options.subscribe;
-             // Give the Entry the ability to trigger cache.delete(key), even though
-             // the Entry itself does not know about key or cache.
-@@ -521,6 +540,7 @@ function wrap(originalFunction, options) {
-     optimistic.getKey = keyArgs ? function getKey() {
-         return makeCacheKey.apply(null, keyArgs.apply(null, arguments));
-     } : makeCacheKey;
-+    optimistic.__DEBUG_ONLY_optimismCache = cache;
-     return Object.freeze(optimistic);
  }
  
