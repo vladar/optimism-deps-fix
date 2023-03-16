@@ -13,8 +13,8 @@ const result = {
   data: {
     __typename: "Query",
     myList: [
-      { id: "1", title: "Title1" },
-      { id: "2", title: "Title2" },
+      { __typename: "ListEntry", id: "1", title: "Title1" },
+      { __typename: "ListEntry", id: "2", title: "Title2" },
       // ... up to 10
     ],
   },
