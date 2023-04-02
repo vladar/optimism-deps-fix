@@ -1,5 +1,5 @@
 diff --git a/node_modules/optimism/lib/bundle.cjs.js b/node_modules/optimism/lib/bundle.cjs.js
-index d5ab82f..d647afe 100644
+index d5ab82f..5d68de1 100644
 --- a/node_modules/optimism/lib/bundle.cjs.js
 +++ b/node_modules/optimism/lib/bundle.cjs.js
 @@ -227,7 +227,13 @@ var Entry = /** @class */ (function () {
@@ -23,7 +23,7 @@ index d5ab82f..d647afe 100644
                  depsByKey.set(key, dep_1 = new Set);
 +                if (global.enableOptimismFix) {
 +                    dep_1.cleanup = () => {
-+                        if (dep_1 && dep_1.size === 0) {
++                        if (dep_1 && dep_1.size === 0 && dep_1 === depsByKey.get(key)) {
 +                            depsByKey.delete(key);
 +                        }
 +                    }
@@ -32,7 +32,7 @@ index d5ab82f..d647afe 100644
              parent.dependOn(dep_1);
              if (typeof subscribe === "function") {
 diff --git a/node_modules/optimism/lib/bundle.esm.js b/node_modules/optimism/lib/bundle.esm.js
-index 9e5a669..125e6a2 100644
+index 9e5a669..bfeacc4 100644
 --- a/node_modules/optimism/lib/bundle.esm.js
 +++ b/node_modules/optimism/lib/bundle.esm.js
 @@ -225,7 +225,13 @@ var Entry = /** @class */ (function () {
@@ -56,7 +56,7 @@ index 9e5a669..125e6a2 100644
              }
 +            if (self.enableOptimismFix) {
 +                dep_1.cleanup = () => {
-+                    if (dep_1 && dep_1.size === 0) {
++                    if (dep_1 && dep_1.size === 0 && dep_1 === depsByKey.get(key)) {
 +                        depsByKey.delete(key);
 +                    }
 +                }
